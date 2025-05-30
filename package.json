@@ -1,13 +1,12 @@
 {
   "name": "plio-backend",
   "version": "1.0.0",
-  "main": "api/search.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "vercel dev",
-    "build": "vercel build",
-    "start": "node api/search.js",
-    "preview": "vercel preview"
+    "dev": "node index.js",
+    "start": "node index.js",
+    "build": "echo 'Build complete'"
   },
   "engines": {
     "node": ">=14.x"

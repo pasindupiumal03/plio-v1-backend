@@ -4,17 +4,20 @@
     {
       "src": "api/**/*.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "index.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/api/search.js"
+      "dest": "/index.js"
     }
-  ],
-  "functions": {
-    "api/**/*.js": {
-      "maxDuration": 10
-    }
-  }
+  ]
 }
