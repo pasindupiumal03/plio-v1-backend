@@ -1,8 +1,5 @@
-import { Router } from 'express';
-import TorrentSearchApi from 'torrent-search-api';
-import { getTorrentDetails } from '../services/torrentService.js';
-
-const router = Router();
+const TorrentSearchApi = require("torrent-search-api");
+const { getTorrentDetails } = require("../services/torrentService");
 
 const providersToEnable = [
   "1337x",
@@ -29,39 +26,26 @@ function initializeProviders() {
   }
 }
 
-// Initialize providers when the server starts
-initializeProviders();
+module.exports = async (req, res) => {
+  if (req.method !== "GET") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
 
-// Search endpoint
-router.get('/', async (req, res) => {
   const query = req.query.q;
-  const category = req.query.type || 'all';
-  const limit = parseInt(req.query.limit) || 30;
+  const category = req.query.type;
+  const limit = 30;
 
   if (!query) {
-    return res.status(400).json({ 
-      success: false,
-      error: "Missing required query parameter 'q'" 
-    });
+    return res.status(400).json({ error: "Missing query parameter 'q'" });
   }
 
   try {
+    initializeProviders();
     const torrents = await TorrentSearchApi.search(query, category, limit);
     const results = await Promise.all(torrents.map(getTorrentDetails));
-    
-    return res.status(200).json({
-      success: true,
-      count: results.length,
-      results
-    });
+    return res.status(200).json({ results });
   } catch (error) {
     console.error("Search error:", error);
-    return res.status(500).json({
-      success: false,
-      error: "Failed to search torrents",
-      details: process.env.NODE_ENV === 'development' ? error.message : undefined
-    });
+    return res.status(500).json({ error: "Failed to search torrents." });
   }
-});
-
-export default router;
+};
