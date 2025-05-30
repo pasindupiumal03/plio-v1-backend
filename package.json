@@ -1,21 +1,27 @@
 {
   "name": "plio-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "api/search.js",
   "type": "module",
   "scripts": {
     "dev": "vercel dev",
     "build": "vercel build",
-    "start": "vercel start"
+    "start": "node api/search.js",
+    "preview": "vercel preview"
   },
-  "keywords": [],
+  "engines": {
+    "node": ">=14.x"
+  },
+  "keywords": ["torrent", "api", "search"],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Torrent search API backend",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^5.1.0",
-    "nodemon": "^3.1.10",
     "torrent-search-api": "^2.1.4"
+  },
+  "devDependencies": {
+    "vercel": "^28.4.12"
   }
 }

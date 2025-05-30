@@ -5,5 +5,16 @@
       "src": "api/**/*.js",
       "use": "@vercel/node"
     }
-  ]
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/api/search.js"
+    }
+  ],
+  "functions": {
+    "api/**/*.js": {
+      "maxDuration": 10
+    }
+  }
 }
